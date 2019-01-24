@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# -----------------------------------------------------------------------------#
+# Automatic setup of M-Audio Fast Track Ultra based on udev                    #
+# -----------------------------------------------------------------------------#
+#                                                                              #
+# This disables the internal routing of the sound card which is set            #
+# at power on, and replaces it with a neutral setting which is                 #
+# appropriate to work with JACK connection graphs.                             #
+#                                                                              #
+# Based on information found at:                                               #
+# http://heikki.ketoharju.info/2013/03/linux-and-fasttrackultra/               #
+#                                                                              #
+# -----------------------------------------------------------------------------#
+
+card="$1"
+if test -z "$card"; then
+    exit 1
+fi
+
+for i in `seq 8`; do
+    for j in `seq 8`; do
+        amixer -q -c "$card" set "AIn$i - Out$j" "0%"
+    done
+    amixer -q -c "$card" set "Effect Send AIn$i" "0%"
+    amixer -q -c "$card" set "Effect Send DIn$i" "0%"
+done
+
+for i in `seq 4`; do
+    amixer -q -c "$card" set "Effect Return $i" "0%"
+done

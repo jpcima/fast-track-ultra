@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="sound", KERNEL=="controlC*", ATTRS{idVendor}=="0763", ATTRS{idProduct}=="2080", RUN=="@SBINDIR@/setup-fast-track-ultra %n"
