@@ -21,6 +21,11 @@ fi
 for i in `seq 8`; do
     for j in `seq 8`; do
         amixer -q -c "$card" set "AIn$i - Out$j" "0%"
+        if test "$i" != "$j"; then
+            amixer -c "$card" set "DIn$i - Out$j" "0%"
+        else
+            amixer -c "$card" set "DIn$i - Out$j" "100%"
+        fi
     done
     amixer -q -c "$card" set "Effect Send AIn$i" "0%"
     amixer -q -c "$card" set "Effect Send DIn$i" "0%"
